@@ -1,10 +1,9 @@
 ﻿
+using System;
 
-
-namespace TestSFML
+namespace LockHeedCore
 {
-    using System;
-
+   
     public abstract class Effect
     {
         public const double MovementModifier = 5;
@@ -22,7 +21,9 @@ namespace TestSFML
             this.y = y;
         }
 
-        public static abstract bool CheckCollision();
 
+
+       
+      
     }
 }

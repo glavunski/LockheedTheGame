@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace LockHeedCore
 {
-    
+   
     using SFML.Audio;
     using SFML.Window;
     using SFML.Graphics;
@@ -33,6 +33,7 @@ namespace LockHeedCore
             window.Closed += new EventHandler(OnClose);
             window.KeyPressed += new EventHandler<KeyEventArgs>(OnKeyPressed);
             window.KeyReleased += new EventHandler<KeyEventArgs>(OnKeyReleased);
+            window.MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(OnMouseButtonPressed);
             window.SetActive();
 
 
@@ -41,7 +42,7 @@ namespace LockHeedCore
             new DeadlyObstacle("level/obstacle/hole.png",300,300),
             new ObstructedObstacle("level/obstacle/rock.png",350,300),
             new ObstructedObstacle("level/obstacle/rock.png",400,300),
-            new Chest("level/obstacle/chest.png",200,150)
+            new ChestObstacle("level/obstacle/chest.png",200,150)
             };
 
             List<Door> doors = new List<Door>()
@@ -53,21 +54,23 @@ namespace LockHeedCore
             {
                 new Level("level1","level/baseLevel.png",obstacles,doors)
             };
-     
-            
-            
-           
+
+            Character hero = new Character();
+            hero.Mana = 100;
+            hero.X = 300;
+            hero.Y = 300;
+
+
             //BoundingBox
-            RectangleShape rect = new RectangleShape();
-            rect.FillColor = new Color(Color.Blue);
-            rect.Size = new Vector2f(30, 30);
-            
+            FloatRect rect = new FloatRect(X,Y,30,30);
+           
+         
 
             var player = new Sprite(new Texture("character.png"));
-                
-            
 
-         
+
+
+
 
             //game loop
             while (window.IsOpen())
@@ -80,16 +83,17 @@ namespace LockHeedCore
 
                 ChangePosition(rect);
 
-                
 
-                player.Position = new Vector2f(X, Y);           
-                rect.Position = new Vector2f(X+5, Y+55);
-             
+
+                player.Position = new Vector2f(X, Y);
+              
+                rect.Top = Y + 55;
+                rect.Left = X + 5;
                 //draw             
-                window.Draw(rect);
-                window.Draw(player); //here we will pass our renderer class that will be IDrawable
-               
                 
+                window.Draw(player); //here we will pass our renderer class that will be IDrawable
+
+
                 //render
                 window.Display(); //call this to draw everything in the buffer
             }
@@ -102,37 +106,37 @@ namespace LockHeedCore
             window.Close();
         }
 
-        static void ChangePosition(RectangleShape rect) 
+        static void ChangePosition(FloatRect rect)
         {
-            
+
             if (keyArrowDown)
             {
-                if (rect.Position.Y <= WindowHeight-80)
+                if (rect.Top <= WindowHeight - 80)
                 {
                     Y += MovementModifier;
                 }
             }
-            if (keyArrowUp) 
+            if (keyArrowUp)
             {
-                if (rect.Position.Y >= 60)
+                if (rect.Top >= 60)
                 {
                     Y -= MovementModifier;
-                }              
+                }
             }
-            if (keyArrowLeft) 
+            if (keyArrowLeft)
             {
-                if (rect.Position.X >= 60)
+                if (rect.Left >= 60)
                 {
                     X -= MovementModifier;
-                }    
-               
+                }
+
             }
-            if (keyArrowRight) 
+            if (keyArrowRight)
             {
-                if (rect.Position.X <= WindowWidth - 85)
+                if (rect.Left <= WindowWidth - 85)
                 {
                     X += MovementModifier;
-                }   
+                }
             }
         }
 
@@ -147,7 +151,7 @@ namespace LockHeedCore
             {
                 keyArrowRight = true;
             }
-             if (e.Code == Keyboard.Key.Up)
+            if (e.Code == Keyboard.Key.Up)
             {
                 keyArrowUp = true;
             }
@@ -155,6 +159,7 @@ namespace LockHeedCore
             {
                 keyArrowDown = true;
             }
+           
         }
         static void OnKeyReleased(object sender, KeyEventArgs e)
         {
@@ -167,7 +172,7 @@ namespace LockHeedCore
             {
                 keyArrowRight = false;
             }
-             if (e.Code == Keyboard.Key.Up)
+            if (e.Code == Keyboard.Key.Up)
             {
                 keyArrowUp = false;
             }
@@ -175,26 +180,16 @@ namespace LockHeedCore
             {
                 keyArrowDown = false;
             }
-        
+
         }
-
-
-        
-
-        static void DrawCharacter(Character character,RenderWindow window) 
+        static void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
+            if (e.Button == Mouse.Button.Right)
+            { 
+            
+            }
 
-            var legs = new Sprite(new Texture(character.Legs));
-            legs.Position = new Vector2f(X,Y-30);
-
-
-
-            window.Draw(legs);
-            window.Draw(new Sprite(new Texture(character.Body)));
-            window.Draw(new Sprite(new Texture(character.HeadPiece)));
-            window.Draw(new Sprite(new Texture(character.HeadPiece)));
         }
-
 
 
 

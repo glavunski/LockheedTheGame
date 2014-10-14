@@ -1,9 +1,8 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 
-namespace TestSFML
+namespace LockHeedCore
 {
-    using System;
-    using System.Collections.Generic;
 
     public class Projectile : Effect
     {
@@ -42,10 +41,9 @@ namespace TestSFML
             }
         }
 
-        public static override bool CheckCollision(Projectile projectile)
+        public static bool CheckCollision(Projectile projectile)
         {
             return true;
-
         }
 
 

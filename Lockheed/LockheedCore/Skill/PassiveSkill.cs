@@ -1,6 +1,5 @@
-﻿
-
-namespace TestSFML
+﻿/*
+namespace LockHeedCore.Skill
 {
     using System;
     public class PassiveSkill : Skill
@@ -25,3 +24,4 @@ namespace TestSFML
 
     }
 }
+*/
